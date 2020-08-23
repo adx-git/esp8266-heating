@@ -8,11 +8,9 @@
 #include <Ticker.h>
 #include <VitoWiFi.h>
 #include <TreeLight.h>
+#include "config.h"
 
-static const char SSID[] = "xxxx";
-static const char PASS[] = "xxxx";
-static const IPAddress BROKER(192, 168, 1, 2);
-static const uint16_t PORT =  1883;
+
 
 Ticker VitoWiFiTimer;
 volatile bool updateVitoWiFi = false;
@@ -33,7 +31,7 @@ const char boilerGroup[] = "boiler";
 const char hotwaterGroup[] = "hotwater";
 
 // VitoWiFi initialization - VitoDens 2xx with Vitotronic 200
-VitoWiFi_setProtocol(P300);  // this also initializes VitoWiFi.
+VitoWiFi_setProtocol(PROTOCOL);  // this also initializes VitoWiFi.
 DPTemp outsideTemp(outsideTempName, boilerGroup, 0x5525);
 DPTemp boilerTemp(boilerTempName, boilerGroup, 0x0810);
 DPTemp dhwTemp(dhwTempName, hotwaterGroup, 0x0812);
@@ -98,7 +96,7 @@ void setup() {
   TreeLight.setHostname("HEATING");
   TreeLight.setupWiFi(SSID, PASS);
   TreeLight.setupServer(80);
-  TreeLight.setupMqtt(BROKER, PORT);
+  TreeLight.setupMqtt(BROKER, PORT, MQTT_USER,MQTT_PASSWORD);
   TreeLight.begin();
 }
 
